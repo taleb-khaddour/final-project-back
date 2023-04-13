@@ -13,6 +13,19 @@ async function getAll(req, res, next) {
 
 
 
+async function getByName(req, res, next) {
+    try {
+      const name = req.params.name
+      
+      const event = await model.findOne({ name: name })
+      if (!event) {
+        return res.status(404).send({ success: false, error: 'Event not found' })
+      }
+      res.status(200).send({ success: true, event })
+    } catch (err) {
+      res.status(500).send({ success: false, error: err.message })
+    }
+  }
 
 function createAdmin(req, res, next) {
 
@@ -84,5 +97,5 @@ function createAdmin(req, res, next) {
 
   
 
-  const admin = { getAll,createAdmin,edit,Delete,getById};
-export default admin;
+  const category = { getAll,createAdmin,edit,Delete,getById,getByName};
+export default category;

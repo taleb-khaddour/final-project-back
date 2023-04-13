@@ -8,5 +8,7 @@ router.post("/add",  controller.createAdmin);
 router.patch("/update/:id",  controller.edit);
 router.delete("/delete/:id", controller.Delete);
 router.get("/:id",  controller.getById);
+router.get("/name/:name", controller.getByName);
+
 
 export default router;
