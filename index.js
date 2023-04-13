@@ -2,7 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
-import Adminroute from "./router/Admin_router.js"
+import Admin from "./router/Admin_router.js";
+import Product from "./router/product_router.js";
+import Category from "./router/category_router.js";
+
+
 
 
 
@@ -26,7 +30,10 @@ app.listen(
   PORT,
   console.log(`Server Running in ${process.env.NODE_ENV} mode on Port ${PORT}`)
 );
-app.use("/admin", Adminroute);
+app.use("/dashboard/admin", Admin);
+app.use("/dashboard/product", Product);
+app.use("/dashboard/category", Category);
+
 //handling invalid requests
 app.use("*", (req, res) => {
   res.status(400).send({
