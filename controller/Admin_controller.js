@@ -1,16 +1,10 @@
 import Model from '../model/Admin_Model.js';
-
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const PAGE_SIZE = 10;
 
 
-// async function getAll(req, res, next) {
-//     try{
-//     const Admins =await Model.find({});
-//     res.status(200).send({success:true,Admins});
-// }catch(err){
-//     res.status(500).send({success:false,err:err});
-// }
-// }
+
  
 async function getAll(req, res) {
   try {
@@ -35,17 +29,86 @@ async function getAll(req, res) {
 
 
 
+const createAdmin = async (req, res) => {
+  // Our register logic starts here
+  try {
+    // Get user input
+    const { fullname, email, password } = req.body;
 
-function createAdmin(req, res, next) {
+    // Validate user input
+    if (!(email && password && fullname)) {
+      res.status(400).send("All input is required");
+    }
 
-    let Add = new Model(req.body);
-    Add
-      .save()
-      .then((response) => res.status(200).send({ success: true, response }))
-      .catch((err) => {
-        res.status(400).send(err);
-      });
+    // check if user already exist
+    // Validate if user exist in our database
+    const oldUser = await Model.findOne({ email });
+
+    if (oldUser) {
+      return res.status(409).send("User Already Exist. Please Login");
+    }
+
+    //Encrypt user password
+    let encryptedUserPassword = await bcrypt.hash(password, 10);
+
+    // Create user in our database
+    const user = await Model.create({
+     fullname:fullname,
+      email: email.toLowerCase(), // sanitize
+      password: encryptedUserPassword,
+    });
+
+    // Create token
+
+    // return new user
+    res.status(201).send(user);
+  } catch (err) {
+    console.log(err);
   }
+  // Our register logic ends here
+};
+
+
+
+
+
+const login = async (req, res) => {
+  // Get user input
+  console.log(req.body);
+  const email = req.body.email;
+  const password = req.body.password;
+
+  // Validate user input
+  if (!(email && password)) {
+    res.status(400).send("All input is required");
+  }
+  // Validate if user exist in our database
+  const user = await Model.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    // Create token
+    const token = jwt.sign(
+      { user_id: user._id, email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "5h",
+      }
+    );
+    res.cookie("auth-token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+
+    // user
+    return res.status(200).send(user);
+  }
+  return res.status(400).send("Invalid Credentials");
+};
+
+
+
+
+
    
   async function getById(req, res, next) {
     try {
@@ -103,8 +166,20 @@ function createAdmin(req, res, next) {
 
 
 
+  async function deleteAll(req, res, next) {
+    try {
+      const response = await model.deleteMany();
+      res.status(200).send({
+        success: true,
+        message: "All documents deleted successfully.",
+        response,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 
   
 
-  const admin = { getAll,createAdmin,edit,Delete,getById};
+  const admin = { getAll,createAdmin,edit,Delete,getById,login,deleteAll};
 export default admin;
