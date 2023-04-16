@@ -13,6 +13,8 @@ async function getAll(req, res, next) {
 
 
 
+
+
 async function getByName(req, res, next) {
     try {
       const name = req.params.name
@@ -27,7 +29,12 @@ async function getByName(req, res, next) {
     }
   }
 
-function createAdmin(req, res, next) {
+
+
+
+
+function Add(req, res, next) {
+  console.log(req.body);
 
     let Add = new Model(req.body);
     Add
@@ -37,7 +44,10 @@ function createAdmin(req, res, next) {
         res.status(400).send(err);
       });
   }
-   
+  
+
+
+  
   async function getById(req, res, next) {
     try {
       const id = req.params.id
@@ -50,6 +60,10 @@ function createAdmin(req, res, next) {
       res.status(500).send({ success: false, error: err.message })
     }
   }
+
+
+
+
 
   function edit(req, res, next) {
     const id = req.params.id;
@@ -66,7 +80,10 @@ function createAdmin(req, res, next) {
         return next(err);
       });
   }
-  
+
+
+
+
   
   function Delete(req, res, next) {
     const id = req.params.id
@@ -92,10 +109,5 @@ function createAdmin(req, res, next) {
       })
   }
 
-
-
-
-  
-
-  const category = { getAll,createAdmin,edit,Delete,getById,getByName};
+const category = { getAll,Add,edit,Delete,getById,getByName};
 export default category;

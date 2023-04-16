@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const productschema = new Schema(
+const productSchema = new Schema(
   {
-//    name,category, description, price, and image
     name: {
       type: String,
       required: true,
@@ -12,18 +11,17 @@ const productschema = new Schema(
       type: String,
       required: true,
     },
-
     price: {
-         type:number, 
-        required: true 
+      type: Number, 
+      required: true 
     },
     image: { 
-        type: String, 
-        required: true 
+      type: String, 
+      required: true 
     },
-    category: { 
-        type: number, 
-        required: true 
+    category_id: { 
+      type: Schema.Types.ObjectId, 
+      ref: "category"
     },
   },
   {
@@ -31,5 +29,10 @@ const productschema = new Schema(
   }
 );
 
-const product = model("product", productschema);
-export default product;
+// Use a middleware to automatically populate the "category_id" field with the corresponding category document.
+productSchema.pre(['find','findOne'], async function() {
+  await this.populate('category_id').execPopulate();
+});
+
+const Product = model("product", productSchema);
+export default Product;

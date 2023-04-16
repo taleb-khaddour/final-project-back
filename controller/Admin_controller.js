@@ -1,14 +1,36 @@
 import Model from '../model/Admin_Model.js';
 
+const PAGE_SIZE = 10;
 
 
-async function getAll(req, res, next) {
-    try{
-    const Admins =await Model.find({});
-    res.status(200).send({success:true,Admins});
-}catch(err){
-    res.status(500).send({success:false,err:err});
-}
+// async function getAll(req, res, next) {
+//     try{
+//     const Admins =await Model.find({});
+//     res.status(200).send({success:true,Admins});
+// }catch(err){
+//     res.status(500).send({success:false,err:err});
+// }
+// }
+ 
+async function getAll(req, res) {
+  try {
+    const pageNumber = req.query.page || 1;
+    const skipCount = (pageNumber - 1) * PAGE_SIZE;
+
+    const totalAdmin = await Model.countDocuments();
+    const totalPages = Math.ceil(totalAdmin / PAGE_SIZE);
+
+    const Admin = await Model.find().skip(skipCount).limit(PAGE_SIZE);
+
+    return res.status(200).json({
+      success: true,
+      data: Admin,
+      pageNumber: pageNumber,
+      totalPages: totalPages
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 }
 
 
