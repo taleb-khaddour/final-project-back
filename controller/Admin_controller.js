@@ -58,14 +58,11 @@ const createAdmin = async (req, res) => {
       password: encryptedUserPassword,
     });
 
-    // Create token
-
-    // return new user
     res.status(201).send(user);
   } catch (err) {
     console.log(err);
   }
-  // Our register logic ends here
+  
 };
 
 
