@@ -2,7 +2,7 @@ import Model from '../model/product_Model.js'
 
 async function getAll(req, res, next) {
     try {
-        const Admins = await Model.find({})
+        const Admins = await Model.find({}).populate('category')
         res.status(200).send({ success: true, Admins })
     } catch (err) {
         res.status(500).send({ success: false, err: err })

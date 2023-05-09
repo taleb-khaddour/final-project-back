@@ -1,38 +1,34 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
-
-const productSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
+const productSchema = new mongoose.Schema({
+  name: {
+     type: String, 
+     required: true 
     },
-    description: {
-      type: String,
-      required: true,
+  user: { 
+    type: mongoose.Schema.Types.ObjectId,
+     ref: "User", 
+     required: true
+     },
+  description: {
+     type: String 
     },
-    price: {
-      type: Number, 
-      required: true 
+  price: {
+     type: Number, 
+     required: true 
     },
-    image: { 
-      type: String, 
-      required: true 
+  image_url: {
+     type: String 
     },
-    category_id: { 
-      type: Schema.Types.ObjectId, 
-      ref: "category"
-    },
+  category_id: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref: 'category'
   },
-  {
-    collection: "product",
-  }
-);
-
-// Use a middleware to automatically populate the "category_id" field with the corresponding category document.
-productSchema.pre(['find','findOne'], async function() {
-  await this.populate('category_id').execPopulate();
+  size: {
+    type:String,
+  },
 });
 
-const Product = model("product", productSchema);
+
+const Product = mongoose.model("Product", productSchema);
 export default Product;

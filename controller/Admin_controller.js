@@ -165,7 +165,7 @@ const login = async (req, res) => {
 
   async function deleteAll(req, res, next) {
     try {
-      const response = await model.deleteMany();
+      const response = await Model.deleteMany();
       res.status(200).send({
         success: true,
         message: "All documents deleted successfully.",

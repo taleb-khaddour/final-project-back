@@ -4,7 +4,6 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import Admin from "./router/Admin_router.js";
 import Product from "./router/product_router.js";
-import Category from "./router/category_router.js";
 import cookieParser from 'cookie-parser';
 
 
@@ -34,7 +33,6 @@ app.listen(
 );
 app.use("/dashboard/admin", Admin);
 app.use("/dashboard/product", Product);
-app.use("/dashboard/category", Category);
 app.use(cookieParser());
 
 //handling invalid requests
