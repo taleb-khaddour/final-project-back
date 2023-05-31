@@ -6,10 +6,6 @@ const category = new Schema({
     type: String,
     required: true
   },
-  description: {
-    type: String,
-    required: true
-  },
 });
 const Category = model("category", category);
 export default Category;

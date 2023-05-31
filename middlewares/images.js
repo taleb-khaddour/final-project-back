@@ -1,4 +1,5 @@
 import multer from "multer";
+import fs from "fs";
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, "uploads/");
@@ -39,3 +40,14 @@ export default function imagehandler (req, res, next) {
 }
 
 //multiple & none
+
+
+export function deleteImage(imagePath) {
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+      console.error(`Error deleting image file: ${err}`);
+    } else {
+      console.log(`Image file ${imagePath} has been deleted`);
+    }
+  });
+}
