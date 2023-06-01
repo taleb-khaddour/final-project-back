@@ -7,7 +7,12 @@ const storage = multer.diskStorage({
   filename: function (req, file, callback) {
     callback(
       null,
-      file.fieldname + "-" + Date.now() + "." + file.mimetype.split("/")[1]
+      "/" +
+        file.fieldname +
+        "-" +
+        Date.now() +
+        "." +
+        file.mimetype.split("/")[1]
     );
   },
 });
@@ -25,7 +30,7 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage, fileFilter });
 
-export default function imagehandler (req, res, next) {
+export default function imagehandler(req, res, next) {
   upload.single("image")(req, res, (err) => {
     try {
       if (err) {
@@ -40,7 +45,6 @@ export default function imagehandler (req, res, next) {
 }
 
 //multiple & none
-
 
 export function deleteImage(imagePath) {
   fs.unlink(imagePath, (err) => {
