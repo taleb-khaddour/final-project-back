@@ -5,7 +5,7 @@ import imagehandler from "../middlewares/images.js";
 import auth from "../middlewares/jwtAuthenticationMiddleware.js";
 
 router.get("/", controller.getAllSubCategories);
-router.post("/", imagehandler, controller.createSubCategory);
+router.post("/",  controller.createSubCategory);
 router.patch("/:id",imagehandler, controller.updateSubCategory);
 router.delete("/:id", controller.Delete);
 router.get("/:id", controller.getSubCategoryById);

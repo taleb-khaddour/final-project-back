@@ -1,6 +1,6 @@
 import subCategory from "../model/sup_category_Model.js";
 import SubCategory from "../model/sup_category_Model.js";
-import fs from "fs";
+// import fs from "fs";
 const PAGE_SIZE = 10;
 
 const getAllSubCategories = async (req, res) => {
@@ -70,9 +70,9 @@ async function getSubCategoryBySize(req, res, next) {
 async function createSubCategory(req, res, next) {
   console.log("First step")
   try {
-    const { name, description, price, category_id, flavour_id, size} =
+    const { name, description, price, category_id, flavour_id, size,image} =
       req.body;
-      const image = req.imagePath;
+      // const image = req.imagePath;
    
     const newSubCategory = new SubCategory({
       name,
@@ -85,6 +85,7 @@ async function createSubCategory(req, res, next) {
     });
   
     const savedSubCategory = await newSubCategory.save();
+    console.log("savedSubCategory", savedSubCategory);
    
     res.status(200).send({ success: true, data: savedSubCategory });
   } catch (error) {
@@ -139,9 +140,9 @@ async function getSubCategoryById(req, res, next) {
 export const updateSubCategory = async (req, res) => {
   try {
     console.log(req.body);
-    const { name, price, description, category_Id, size, flavour_id } =
+    const { name, price, description, category_Id, size, flavour_id ,image} =
       req.body;
-    const image = req.imagePath;
+    // const image = req.imagePath;
     const editSubCategory = {
       name, 
       price,
@@ -152,9 +153,9 @@ export const updateSubCategory = async (req, res) => {
       image,
     };
     const profile = await SubCategory.findById(req.params.id);
-    if (req.imagePath) {
-      fs.unlinkSync(profile.image);
-    }
+    // if (req.imagePath) {
+    //   fs.unlinkSync(profile.image);
+    // }
     const updateProfile = await SubCategory.findByIdAndUpdate(
       req.params.id,
 
