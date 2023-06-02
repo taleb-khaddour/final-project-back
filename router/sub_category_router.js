@@ -6,7 +6,7 @@ import auth from "../middlewares/jwtAuthenticationMiddleware.js";
 
 router.get("/", controller.getAllSubCategories);
 router.post("/",  controller.createSubCategory);
-router.patch("/:id",imagehandler, controller.updateSubCategory);
+router.patch("/:id", controller.updateSubCategory);
 router.delete("/:id", controller.Delete);
 router.get("/:id", controller.getSubCategoryById);
 router.get("/name/:name", controller.getSubCategoryByName);
