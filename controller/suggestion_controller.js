@@ -2,8 +2,8 @@ import Suggestion from '../model/suggestion_model.js';
 
 export const createSuggestion = async (req, res) => {
   try {
-    const { description,name } = req.body;
-    const newSuggestion = new Suggestion({ description,name });
+    const { name,description } = req.body;
+    const newSuggestion = new Suggestion({name, description });
     await newSuggestion.save();
     res.status(201).json(newSuggestion);
   } catch (error) {
@@ -68,5 +68,14 @@ export const deleteSuggestion = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+export const deleteAllSuggestions = async (req, res) => {
+  try {
+    await Suggestion.deleteMany({});
+    res.status(200).json({ message: "All suggestions deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something n went wrong" });
   }
 };
