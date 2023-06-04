@@ -2,8 +2,8 @@ import Suggestion from '../model/suggestion_model.js';
 
 export const createSuggestion = async (req, res) => {
   try {
-    const { description } = req.body;
-    const newSuggestion = new Suggestion({ description });
+    const { description,name } = req.body;
+    const newSuggestion = new Suggestion({ description,name });
     await newSuggestion.save();
     res.status(201).json(newSuggestion);
   } catch (error) {
