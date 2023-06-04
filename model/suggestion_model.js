@@ -4,7 +4,12 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const { Schema, model } = mongoose;
 
 const suggestionSchema = new mongoose.Schema({
-    description:{
+   name:{
+    type: 'string',
+    required: true
+   },
+
+  description:{
       type: 'string',
       required: true
     }
