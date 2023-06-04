@@ -42,9 +42,10 @@ export const getSuggestionById = async (req, res) => {
 
 export const updateSuggestion = async (req, res) => {
   try {
-    const { description } = req.body;
+    const { name,description } = req.body;
     const updatedSuggestion = await Suggestion.findByIdAndUpdate(
       req.params.id,
+      {name},
       { description },
       { new: true }
     );
